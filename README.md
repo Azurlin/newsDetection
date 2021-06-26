@@ -56,3 +56,12 @@ npm run build
 |  数据库   | 版本  | 
 |  ----  | ----  |
 | MySQL  | 8.0 |
+
+## 4.词向量模型
+
+测试系统使用了glove.6B词向量
+>下载地址:https://www.kaggle.com/rohitanil/glove6b50dtxt
+
+转化为word2Vec形式：
+
+	python -m gensim.scripts.glove2word2vec -i glove.6B.50d.txt -o glove.6B.50d.word2vec

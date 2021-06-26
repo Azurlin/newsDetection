@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldu.newsdisplay.dataset.dao.DatasetMapper">
+  <resultMap id="BaseResultMap" type="com.ldu.newsdisplay.dataset.domain.Dataset">
+    <id column="dataset_id" jdbcType="BIGINT" property="datasetId" />
+    <result column="news_count" jdbcType="INTEGER" property="newsCount" />
+    <result column="fake_count" jdbcType="INTEGER" property="fakeCount" />
+    <result column="create_date" jdbcType="DATE" property="createDate" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    dataset_id, news_count, fake_count, create_date, name
+  </sql>
+  <select id="selectByExample" parameterType="com.ldu.newsdisplay.dataset.domain.DatasetExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dataset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dataset
+    where dataset_id = #{datasetId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dataset
+    where dataset_id = #{datasetId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ldu.newsdisplay.dataset.domain.DatasetExample">
+    delete from dataset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ldu.newsdisplay.dataset.domain.Dataset">
+    insert into dataset (dataset_id, news_count, fake_count, 
+      create_date, name)
+    values (#{datasetId,jdbcType=BIGINT}, #{newsCount,jdbcType=INTEGER}, #{fakeCount,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ldu.newsdisplay.dataset.domain.Dataset" keyProperty="datasetId" useGeneratedKeys="true">
+    insert into dataset
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="datasetId != null">
+        dataset_id,
+      </if>
+      <if test="newsCount != null">
+        news_count,
+      </if>
+      <if test="fakeCount != null">
+        fake_count,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="datasetId != null">
+        #{datasetId,jdbcType=BIGINT},
+      </if>
+      <if test="newsCount != null">
+        #{newsCount,jdbcType=INTEGER},
+      </if>
+      <if test="fakeCount != null">
+        #{fakeCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ldu.newsdisplay.dataset.domain.DatasetExample" resultType="java.lang.Long">
+    select count(*) from dataset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dataset
+    <set>
+      <if test="record.datasetId != null">
+        dataset_id = #{record.datasetId,jdbcType=BIGINT},
+      </if>
+      <if test="record.newsCount != null">
+        news_count = #{record.newsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.fakeCount != null">
+        fake_count = #{record.fakeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=DATE},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dataset
+    set dataset_id = #{record.datasetId,jdbcType=BIGINT},
+      news_count = #{record.newsCount,jdbcType=INTEGER},
+      fake_count = #{record.fakeCount,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=DATE},
+      name = #{record.name,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ldu.newsdisplay.dataset.domain.Dataset">
+    update dataset
+    <set>
+      <if test="newsCount != null">
+        news_count = #{newsCount,jdbcType=INTEGER},
+      </if>
+      <if test="fakeCount != null">
+        fake_count = #{fakeCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dataset_id = #{datasetId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ldu.newsdisplay.dataset.domain.Dataset">
+    update dataset
+    set news_count = #{newsCount,jdbcType=INTEGER},
+      fake_count = #{fakeCount,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=DATE},
+      name = #{name,jdbcType=VARCHAR}
+    where dataset_id = #{datasetId,jdbcType=BIGINT}
+  </update>
+</mapper>
